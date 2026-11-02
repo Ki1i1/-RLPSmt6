@@ -2,6 +2,8 @@
 
 Prototipe Dashboard Monitoring Suhu dengan React, Vite, dan Tailwind CSS v3. Implementasi dimulai dari bagian **3. Pembuatan Reusable Component: StatusCard.jsx** sampai tugas akhir dashboard.
 
+**Update Modul 4:** Dashboard sekarang mendukung PWA, instalasi, dan akses offline. Ikuti [panduan Modul 4](MODUL-4.md) untuk menjalankan versi produksi, menguji koneksi, serta melihat bukti screenshot dan laporan Lighthouse.
+
 ## Menjalankan frontend
 
 Dari folder utama `modular-system`:
@@ -82,4 +84,4 @@ Konfigurasi Tailwind dan kedua komponen sudah tersedia di proyek ini. Ambil scre
 - `desktop.png`: lebar 1280 px atau lebih, memperlihatkan tiga kartu sejajar dan tombol.
 - `mobile.png`: lebar 390 px, memperlihatkan susunan kartu dalam satu kolom; gunakan full-page screenshot bila diperlukan.
 
-Sertakan screenshot tersebut bersama source proyek dalam ZIP untuk pengumpulan. Screenshot belum disertakan karena browser pratinjau tidak tersedia di sesi pengerjaan otomatis.
+Untuk Modul 4, screenshot offline desktop/mobile dan laporan Lighthouse tersedia di `../output/modul-4/`. Lihat [panduan Modul 4](MODUL-4.md) untuk rincian hasil pengujian dan berkas pengumpulan.

@@ -1,5 +1,5 @@
 ﻿const techColors = {
-  primary: '#3b82f6', // Normal
+  primary: '#10f742', // Normal
   warning: '#f59e0b', // Peringatan
   danger: '#ef4444', // Kritis
   bg: '#f8fafc', // Surface

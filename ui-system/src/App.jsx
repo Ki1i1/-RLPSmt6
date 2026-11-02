@@ -1,19 +1,26 @@
 ﻿import { useState } from 'react'
 import PrimaryButton from './components/PrimaryButton'
 import StatusCard from './components/StatusCard'
+import useNetworkStatus from './hooks/useNetworkStatus'
 
 // Data simulasi BFF untuk pengujian visual Modul 3.
 const sensorList = [
-  { id: 'S1', title: 'Suhu Ruangan', value: 24.5, unit: '°C', status: 'OK' },
-  { id: 'S2', title: 'Suhu Perangkat', value: 38.2, unit: '°C', status: 'WARNING' },
-  { id: 'S3', title: 'Suhu Inti', value: 88.2, unit: '°C', status: 'DANGER' },
+  { id: 'S1', title: 'Suhu Ruangan Q2.1', value: 24.5, unit: '°C', status: 'OK' },
+  { id: 'S2', title: 'Suhu Ruangan Q2.2', value: 28.2, unit: '°C', status: 'WARNING' },
+  { id: 'S3', title: 'Suhu Ruangan Q2.3', value: 33.2, unit: '°C', status: 'DANGER' },
 ]
 
 export default function App() {
   const [isCompact, setIsCompact] = useState(false)
+  const isOnline = useNetworkStatus()
 
   return (
     <div className="min-h-screen bg-tech-bg font-sans text-slate-900">
+      {!isOnline && (
+        <div role="alert" className="sticky top-0 z-50 bg-red-600 px-5 py-3 text-center text-sm font-medium leading-6 text-white shadow-sm">
+          Anda sedang offline. Menampilkan data dari cache lokal.
+        </div>
+      )}
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 p-safe-pad md:py-6">
           <div>
@@ -24,9 +31,9 @@ export default function App() {
               Smart monitoring system
             </p>
           </div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600">
-            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-tech-primary" />
-            Mode simulasi
+          <span role="status" className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600">
+            <span aria-hidden="true" className={`h-2 w-2 rounded-full ${isOnline ? 'bg-tech-primary' : 'bg-tech-danger'}`} />
+            {isOnline ? 'Online' : 'Offline'} · Mode simulasi
           </span>
         </div>
       </header>
@@ -34,7 +41,7 @@ export default function App() {
       <main className="mx-auto max-w-6xl p-safe-pad pb-12 md:pt-12">
         <div className="mb-8 max-w-2xl">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-tech-primary">
-            Dashboard / Overview
+            Dashboard
           </p>
           <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
             Dashboard Monitoring Suhu
@@ -82,7 +89,7 @@ export default function App() {
         </section>
 
         <footer className="mt-10 flex flex-col gap-2 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500 sm:flex-row sm:justify-between">
-          <p>SensorNodes · Prototipe UI Modul 3</p>
+          <p>SensorNodes · Progressive Web App · Modul 4</p>
           <p>Data simulasi · Belum terhubung ke perangkat IoT</p>
         </footer>
       </main>

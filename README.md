@@ -2,6 +2,8 @@
 
 Implementasi Clean Layering dan Backend for Frontend (BFF) menggunakan NestJS, mulai dari bagian D serta tugas Smart Home Controller.
 
+Frontend Modul 3 dan PWA Modul 4 berada di `ui-system`. Ikuti [panduan Modul 4](ui-system/MODUL-4.md) untuk menjalankan dashboard offline. Backend tidak perlu berjalan karena dashboard masih memakai data simulasi. Bukti screenshot offline dan laporan Lighthouse tersedia di `output/modul-4/`.
+
 ## Menjalankan proyek
 
 ```powershell

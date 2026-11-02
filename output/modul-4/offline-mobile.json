@@ -1,0 +1,28 @@
+{
+  "testedAt": "2026-11-02T07:48:38.287Z",
+  "browser": "156.0.4314.58",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "offlineReload": "passed",
+  "offlineNewTab": "passed",
+  "offlineInteraction": "passed",
+  "reconnect": "passed",
+  "horizontalOverflow": false,
+  "pageErrors": [],
+  "cacheEntries": [
+    "/sensor-icon.svg",
+    "/pwa-maskable-512x512.png",
+    "/pwa-512x512.png",
+    "/pwa-192x192.png",
+    "/index.html",
+    "/icons.svg",
+    "/favicon.svg",
+    "/apple-touch-icon.png",
+    "/assets/workbox-window.prod.es5-Bd17z0YL.js",
+    "/assets/index-CLB2Gq5w.js",
+    "/assets/index-BulH4I6a.css",
+    "/manifest.webmanifest"
+  ]
+}

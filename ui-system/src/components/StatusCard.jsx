@@ -1,6 +1,6 @@
 const statusStyles = {
   OK: {
-    className: 'border-tech-primary bg-tech-primary/5 text-tech-primary',
+    className: 'border-green-500 bg-green-100 text-green-800',
     label: 'Normal',
     message: 'SYSTEM SECURE',
   },
@@ -12,7 +12,7 @@ const statusStyles = {
   DANGER: {
     className: 'border-tech-danger bg-tech-danger/5 text-tech-danger',
     label: 'Kritis',
-    message: 'ACTION REQUIRED',
+    message: 'WARNING NEED MORE ACTION',
   },
   default: {
     className: 'border-slate-300 bg-tech-bg text-slate-500',
