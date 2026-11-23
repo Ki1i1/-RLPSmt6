@@ -1,10 +1,10 @@
 ﻿import { useState } from 'react'
 import PrimaryButton from './components/PrimaryButton'
 import StatusCard from './components/StatusCard'
-import useNetworkStatus from './hooks/useNetworkStatus'
+import useDashboard from './hooks/useDashboard'
 
-// Data simulasi BFF untuk pengujian visual Modul 3.
-const sensorList = [
+// Bawaan PWA saat belum ada data BFF yang tersimpan.
+const demoSensors = [
   { id: 'S1', title: 'Suhu Ruangan Q2.1', value: 24.5, unit: '°C', status: 'OK' },
   { id: 'S2', title: 'Suhu Ruangan Q2.2', value: 28.2, unit: '°C', status: 'WARNING' },
   { id: 'S3', title: 'Suhu Ruangan Q2.3', value: 33.2, unit: '°C', status: 'DANGER' },
@@ -12,13 +12,26 @@ const sensorList = [
 
 export default function App() {
   const [isCompact, setIsCompact] = useState(false)
-  const isOnline = useNetworkStatus()
+  const { snapshot, isOnline, isLoading, isConnected, failed, refresh } = useDashboard()
+  const sensors = snapshot
+    ? snapshot.sensors.map(({ id, deviceName, reading }) => ({
+        id,
+        title: deviceName,
+        value: reading.current,
+        unit: reading.unit,
+        status: reading.isOptimal ? 'OK' : 'DANGER',
+      }))
+    : isLoading ? [] : demoSensors
+  const light = snapshot?.light
+  const sensorSource = isConnected ? 'Data BFF' : snapshot ? 'Data terakhir dari BFF' : 'Data contoh'
 
   return (
     <div className="min-h-screen bg-tech-bg font-sans text-slate-900">
       {!isOnline && (
         <div role="alert" className="sticky top-0 z-50 bg-red-600 px-5 py-3 text-center text-sm font-medium leading-6 text-white shadow-sm">
-          Anda sedang offline. Menampilkan data dari cache lokal.
+          {snapshot
+            ? 'Anda sedang offline. Menampilkan data BFF terakhir dari cache lokal.'
+            : 'Anda sedang offline. Menampilkan data contoh dari cache lokal aplikasi.'}
         </div>
       )}
       <header className="border-b border-slate-200 bg-white">
@@ -33,7 +46,7 @@ export default function App() {
           </div>
           <span role="status" className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600">
             <span aria-hidden="true" className={`h-2 w-2 rounded-full ${isOnline ? 'bg-tech-primary' : 'bg-tech-danger'}`} />
-            {isOnline ? 'Online' : 'Offline'} · Mode simulasi
+            {isOnline ? 'Online' : 'Offline'}{isConnected && ' · BFF terhubung'}
           </span>
         </div>
       </header>
@@ -52,16 +65,28 @@ export default function App() {
           </p>
         </div>
 
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <div role="status" className="text-sm text-slate-600">
+            {isLoading && 'Memuat data BFF…'}
+            {failed && 'Data BFF gagal dimuat. Coba muat ulang.'}
+          </div>
+          <PrimaryButton disabled={!isOnline || isLoading} onClick={refresh}>
+            Muat ulang data
+          </PrimaryButton>
+        </div>
+
         <section aria-labelledby="sensor-heading">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <h2 id="sensor-heading" className="text-sm font-semibold text-slate-700">
               Ringkasan sensor
             </h2>
-            <p className="text-xs text-slate-500">3 sensor · Data contoh BFF</p>
+            {(!isLoading || snapshot) && (
+              <p className="text-xs text-slate-500">{sensors.length} sensor · {sensorSource}</p>
+            )}
           </div>
 
           <div id="sensor-grid" className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {sensorList.map((sensor) => (
+            {sensors.map((sensor) => (
               <StatusCard key={sensor.id} {...sensor} isCompact={isCompact} />
             ))}
           </div>
@@ -88,9 +113,26 @@ export default function App() {
           </div>
         </section>
 
-        <footer className="mt-10 flex flex-col gap-2 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500 sm:flex-row sm:justify-between">
-          <p>SensorNodes · Progressive Web App · Modul 4</p>
-          <p>Data simulasi · Belum terhubung ke perangkat IoT</p>
+        <section aria-labelledby="light-heading" className="mt-6 rounded-xl border border-slate-200 bg-white p-safe-pad">
+          <h2 id="light-heading" className="text-sm font-semibold text-slate-700">Status lampu</h2>
+          {light ? (
+            <dl className="mt-3 grid grid-cols-2 gap-3">
+              <div>
+                <dt className="text-xs text-slate-500">Kondisi</dt>
+                <dd className="text-sm font-semibold">{light.isOn ? 'Menyala' : 'Mati'}</dd>
+              </div>
+              <div>
+                <dt className="text-xs text-slate-500">Kecerahan</dt>
+                <dd className="text-sm font-semibold">{light.brightness}%</dd>
+              </div>
+            </dl>
+          ) : (
+            <p className="mt-3 text-sm text-slate-500">Data lampu belum tersedia.</p>
+          )}
+        </section>
+
+        <footer className="mt-10 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500">
+          <p>SensorNodes · Progressive Web App · Modul 6</p>
         </footer>
       </main>
     </div>

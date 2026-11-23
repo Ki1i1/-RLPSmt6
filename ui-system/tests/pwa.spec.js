@@ -38,6 +38,8 @@ test('manifest, ikon, dan instalasi PWA valid', async ({ page, context }) => {
 })
 
 test('dashboard dapat dimuat ulang dan dibuka kembali saat offline', async ({ page, context }, testInfo) => {
+  await context.route('**/sensor/web/analytics', (route) => route.abort())
+  await context.route('**/light-control/web', (route) => route.abort())
   const pageErrors = []
   page.on('pageerror', (error) => pageErrors.push(error.message))
   await page.goto('/')

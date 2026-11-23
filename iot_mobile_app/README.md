@@ -1,6 +1,8 @@
 ﻿# SensorNodes Controller - Modul 5
 
-Aplikasi Flutter untuk melanjutkan **4. Implementasi Kode Secara Rinci** dan latihan kendali lampu pada Modul 5. Proyek ini terpisah dari backend NestJS dan frontend React/PWA `ui-system`.
+Aplikasi sekarang membuka dashboard Modul 6 dan memuat sensor serta status lampu dari NestJS. Jalankan backend terlebih dahulu dengan `npm.cmd run start:dev` dari folder utama. Alur koneksi, pengaturan alamat API, dan bukti pengujian ada di [panduan Modul 6](../README.md).
+
+Rincian berikut mendokumentasikan aplikasi Flutter untuk bagian **4. Implementasi Kode Secara Rinci** dan latihan kendali lampu pada Modul 5.
 
 ## Menjalankan aplikasi
 

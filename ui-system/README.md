@@ -4,6 +4,8 @@ Prototipe Dashboard Monitoring Suhu dengan React, Vite, dan Tailwind CSS v3. Imp
 
 **Update Modul 4:** Dashboard sekarang mendukung PWA, instalasi, dan akses offline. Ikuti [panduan Modul 4](MODUL-4.md) untuk menjalankan versi produksi, menguji koneksi, serta melihat bukti screenshot dan laporan Lighthouse.
 
+**Update Modul 6:** Axios memuat koleksi sensor dari `/sensor/web/analytics` dan status lampu dari `/light-control/web`. Tombol **Muat ulang data** mengambil keduanya lagi. Jika koneksi terputus, PWA menampilkan respons BFF terakhir yang tersimpan atau tiga kartu data contoh jika belum pernah berhasil terhubung.
+
 ## Menjalankan frontend
 
 Dari folder utama `modular-system`:
@@ -14,7 +16,12 @@ npm.cmd install
 npm.cmd run dev
 ```
 
-Buka URL Local yang ditampilkan Vite, biasanya `http://localhost:5173`. Backend NestJS tidak perlu berjalan untuk prototipe ini. Data di `src/App.jsx` adalah simulasi BFF, belum diambil dari API atau perangkat IoT. Status pada data simulasi disediakan secara eksplisit untuk menguji tiga variasi visual.
+Buka URL Local yang ditampilkan Vite, biasanya `http://localhost:5173`. Untuk memuat data dari BFF, jalankan `npm.cmd run start:dev` di folder utama proyek pada terminal lain. Web menggunakan `http://localhost:3000` secara bawaan. Jika alamat BFF berbeda, tetapkan `VITE_API_BASE_URL` sebelum menjalankan `dev` atau `build`.
+
+```powershell
+$env:VITE_API_BASE_URL = 'http://localhost:3000'
+npm.cmd run dev
+```
 
 ## Struktur dan persyaratan modul
 

@@ -1,0 +1,24 @@
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [NestFactory] Starting Nest application...
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [InstanceLoader] AppModule dependencies initialized +24ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [InstanceLoader] SensorModule dependencies initialized +0ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [InstanceLoader] LightControlModule dependencies initialized +0ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [RoutesResolver] AppController {/}: +10ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [RouterExplorer] Mapped {/, GET} route +5ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [RoutesResolver] SensorController {/sensor}: +0ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [RouterExplorer] Mapped {/sensor/mobile/dashboard, GET} route +1ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [RouterExplorer] Mapped {/sensor/web/analytics, GET} route +1ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [RoutesResolver] LightControlController {/light-control}: +0ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [RouterExplorer] Mapped {/light-control/mobile, GET} route +1ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [RouterExplorer] Mapped {/light-control/web, GET} route +0ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [NestApplication] Nest application successfully started +3ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [HTTP] GET / 200 9ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [HTTP] OPTIONS /sensor/web/analytics 204 1ms
+[Nest] 34220  - 23/11/2026, 20.19.02     LOG [HTTP] OPTIONS /sensor/web/analytics 204 1ms
+[Nest] 34220  - 23/11/2026, 20.19.04     LOG [HTTP] GET /sensor/web/analytics 200 5ms
+[Nest] 34220  - 23/11/2026, 20.19.04     LOG [HTTP] GET /light-control/web 200 2ms
+[Nest] 34220  - 23/11/2026, 20.19.06     LOG [HTTP] GET /sensor/mobile/dashboard 200 2ms
+[Nest] 34220  - 23/11/2026, 20.19.06     LOG [HTTP] GET /light-control/mobile 200 1ms
+[Nest] 34220  - 23/11/2026, 20.19.06     LOG [HTTP] GET /sensor/mobile/dashboard 200 1ms
+[Nest] 34220  - 23/11/2026, 20.19.06     LOG [HTTP] GET /light-control/mobile 200 1ms
+[Nest] 34220  - 23/11/2026, 20.19.07     LOG [HTTP] GET /sensor/web/analytics 200 2ms
+[Nest] 34220  - 23/11/2026, 20.19.07     LOG [HTTP] GET /light-control/web 200 1ms

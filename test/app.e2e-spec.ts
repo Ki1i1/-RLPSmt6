@@ -5,6 +5,15 @@ import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 import { SensorData } from './../src/sensor/domain/sensor.entity';
 
+const sensorIds = ['S1', 'S2', 'S3', 'S4', 'S5'];
+
+interface WebSensor {
+  id: string;
+  deviceName: string;
+  reading: { current: number; unit: string; isOptimal: boolean };
+  status: { battery: string; lastSeen: string };
+}
+
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
 
@@ -28,7 +37,13 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/sensor/mobile/dashboard')
       .expect(200)
-      .expect({ v: 28.5, u: '°C', st: 'OK', batt: 'GOOD' });
+      .expect([
+        { id: 'S1', v: 28.5, u: '°C', st: 'OK', batt: 'GOOD' },
+        { id: 'S2', v: 24.5, u: '°C', st: 'OK', batt: 'GOOD' },
+        { id: 'S3', v: 1012, u: 'hPa', st: 'WARN', batt: 'GOOD' },
+        { id: 'S4', v: 88.2, u: '°C', st: 'WARN', batt: 'GOOD' },
+        { id: 'S5', v: 12, u: '%', st: 'OK', batt: 'GOOD' },
+      ]);
   });
 
   it('/sensor/web/analytics mengirim detail dengan timestamp ISO', async () => {
@@ -36,15 +51,29 @@ describe('AppController (e2e)', () => {
       .get('/sensor/web/analytics')
       .expect(200);
 
-    expect(response.body).toEqual({
-      id: 'S001',
+    const sensors = response.body as WebSensor[];
+    expect(sensors.map((sensor) => sensor.id)).toEqual(sensorIds);
+    expect(sensors[0]).toEqual({
+      id: 'S1',
       deviceName: 'DHT22-V2',
       reading: { current: 28.5, unit: '°C', isOptimal: true },
       status: { battery: '85%', lastSeen: expect.any(String) },
     });
-    const lastSeen = (response.body as { status: { lastSeen: string } }).status
-      .lastSeen;
-    expect(new Date(lastSeen).toISOString()).toBe(lastSeen);
+    const mobile = await request(app.getHttpServer())
+      .get('/sensor/mobile/dashboard')
+      .expect(200);
+    expect(
+      sensors.map(({ id, reading, status }) => ({
+        id,
+        v: reading.current,
+        u: reading.unit,
+        st: reading.isOptimal ? 'OK' : 'WARN',
+        batt: Number.parseInt(status.battery, 10) < 20 ? 'LOW' : 'GOOD',
+      })),
+    ).toEqual(mobile.body);
+    for (const { status } of sensors) {
+      expect(new Date(status.lastSeen).toISOString()).toBe(status.lastSeen);
+    }
   });
 
   it('perubahan aturan domain tercermin di kedua endpoint sensor', async () => {
@@ -58,12 +87,22 @@ describe('AppController (e2e)', () => {
     await request(app.getHttpServer())
       .get('/sensor/mobile/dashboard')
       .expect(200)
-      .expect({ v: 28.5, u: '°C', st: 'WARN', batt: 'LOW' });
+      .expect(({ body }) => {
+        expect(body).toContainEqual({
+          id: 'S1',
+          v: 28.5,
+          u: '°C',
+          st: 'WARN',
+          batt: 'LOW',
+        });
+      });
     await request(app.getHttpServer())
       .get('/sensor/web/analytics')
       .expect(200)
       .expect(({ body }) => {
-        expect(body.reading.isOptimal).toBe(false);
+        const sensors = body as WebSensor[];
+        expect(sensors[0].reading.isOptimal).toBe(false);
+        expect(sensors[1].reading.isOptimal).toBe(true);
       });
   });
 

@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../shared/theme.dart';
 
-/// State lampu dimiliki Provider; widget hanya menerima nilai dan callback.
 class ControlCard extends StatelessWidget {
-  const ControlCard({super.key, required this.isOn, required this.onToggle});
+  const ControlCard({
+    super.key,
+    required this.isOn,
+    this.onToggle,
+    this.hasStatus = true,
+  });
 
   final bool isOn;
-  final VoidCallback onToggle;
+  final VoidCallback? onToggle;
+  final bool hasStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +26,9 @@ class ControlCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Kendali Lampu',
-            style: TextStyle(
+          Text(
+            onToggle == null ? 'Status Lampu' : 'Kendali Lampu',
+            style: const TextStyle(
               color: AppColors.textDark,
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -52,7 +57,11 @@ class ControlCard extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  isOn ? 'Lampu ON' : 'Lampu OFF',
+                  !hasStatus
+                      ? 'Status lampu belum tersedia'
+                      : isOn
+                      ? 'Lampu ON'
+                      : 'Lampu OFF',
                   style: const TextStyle(
                     color: AppColors.textDark,
                     fontSize: 14,
@@ -61,11 +70,11 @@ class ControlCard extends StatelessWidget {
                 ),
               ),
               Semantics(
-                label: 'Kendali lampu',
+                label: onToggle == null ? 'Status lampu' : 'Kendali lampu',
                 child: Switch(
                   key: const ValueKey('light-switch'),
                   value: isOn,
-                  onChanged: (_) => onToggle(),
+                  onChanged: onToggle == null ? null : (_) => onToggle!(),
                   activeThumbColor: const Color(0xFF92400E),
                   activeTrackColor: const Color(0xFFFDE68A),
                 ),

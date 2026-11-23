@@ -5,8 +5,8 @@ describe('SensorData', () => {
     [9.9, false],
     [10, true],
     [28.5, true],
-    [40, true],
-    [40.1, false],
+    [30, true],
+    [30.1, false],
   ])('suhu %s menghasilkan status normal %s', (value, expected) => {
     const sensor = new SensorData(
       'S001',
